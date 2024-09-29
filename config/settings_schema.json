@@ -1515,6 +1515,11 @@
     "name": "t:settings_schema.cart.name",
     "settings": [
       {
+        "type": "text",
+        "id": "free_shipping_limit",
+        "label": "Enter free shipping amount e.g 1000"
+      },
+      {
         "type": "select",
         "id": "cart_type",
         "options": [

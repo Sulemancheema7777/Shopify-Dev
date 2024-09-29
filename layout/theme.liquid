@@ -250,6 +250,7 @@
     </a>
 
     {%- if settings.cart_type == 'drawer' -%}
+      {% render 'free-shipping-limit' %}
       {%- render 'cart-drawer' -%}
     {%- endif -%}
 

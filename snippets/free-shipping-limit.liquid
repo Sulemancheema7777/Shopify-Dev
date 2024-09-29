@@ -1,0 +1,66 @@
+<script>
+    class FreeShippingLimit extends HTMLElement {
+        constructor() {
+            super();
+            this.attachShadow({ mode: 'open' });
+        }
+
+        connectedCallback() {
+            this.startEventListener();
+            this.updateFreeShippingLimit();
+        }
+
+        // Function to fetch cart data
+        async fetchShopifyCart() {
+            try {
+                const response = await fetch('/cart.js');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const cartData = await response.json();
+                return cartData;
+            } catch (error) {
+                console.error('There was a problem fetching the cart:', error);
+                return null;
+            }
+        }
+
+        async updateFreeShippingLimit() {
+            const cart = await this.fetchShopifyCart();
+            const limit = {{ settings.free_shipping_limit }} || 0;
+            if (limit <= 0 || !cart) return;
+
+            let amountRemaining = limit - cart.total_price / 100;
+            amountRemaining = amountRemaining.toFixed(2);
+
+            const txt = amountRemaining > 0 ?
+                `<p class="shipping_limit">Add ${amountRemaining} more to get free shipping</p>` :
+                `<p class="shipping_limit_done">Congrats! You have FREE SHIPPING</p>`;
+
+            // Use a container inside shadowRoot instead of directly updating the entire innerHTML
+            this.shadowRoot.innerHTML = 
+            `<style>
+                .shipping_limit,.shipping_limit_done{
+                    font-weight: bold;
+                    padding: 8px;
+                    border-radius: 8px;
+                }
+                .shipping_limit {
+                    background-color: yellow;
+                }
+                .shipping_limit_done{
+                    background-color: greenyellow;
+                }
+            </style>
+            ${txt}`;
+        }
+
+        startEventListener() {
+            document.addEventListener('cartUpdate', () => {
+                this.updateFreeShippingLimit();
+            });
+        }
+    }
+
+    customElements.define('free-shipping-limit', FreeShippingLimit);
+</script>

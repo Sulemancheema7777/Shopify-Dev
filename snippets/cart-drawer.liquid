@@ -107,7 +107,10 @@
                       </th>
                     </tr>
                   </thead>
-
+                   <div>
+                      <free-shipping-limit></free-shipping-limit>
+                    </div>
+                  
                   <tbody role="rowgroup">
                     {%- for item in cart.items -%}
                       <tr id="CartDrawer-Item-{{ item.index | plus: 1 }}" class="cart-item" role="row">
