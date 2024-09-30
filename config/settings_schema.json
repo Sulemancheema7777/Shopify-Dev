@@ -1520,6 +1520,17 @@
         "label": "Enter free shipping amount e.g 1000"
       },
       {
+        "type": "checkbox",
+        "id": "upsell_products",
+        "label": "Show Upsell in the cart",
+        "default":false
+      },
+      {
+        "type": "text",
+        "id": "upsell_text",
+        "label": "Upsell Heading"
+      },
+      {
         "type": "select",
         "id": "cart_type",
         "options": [
