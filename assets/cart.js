@@ -52,9 +52,6 @@ class CartItems extends HTMLElement {
         const html = new DOMParser().parseFromString(responseText, 'text/html');
         const sourceQty = html.querySelector('cart-items');
         this.innerHTML = sourceQty.innerHTML;
-        const cartShippingEvent = new CustomEvent('cartUpdate');
-        document.dispatchEvent(cartShippingEvent);
-        console.log('cart update');
       })
       .catch(e => {
         console.error(e);
@@ -105,9 +102,7 @@ class CartItems extends HTMLElement {
         const quantityElement = document.getElementById(`Quantity-${line}`) || document.getElementById(`Drawer-quantity-${line}`);
         const items = document.querySelectorAll('.cart-item');
 
-        const cartShippingEvent = new CustomEvent('cartUpdate');
-        document.dispatchEvent(cartShippingEvent);
-        console.log('quantity update');
+  
 
         if (parsedState.errors) {
           quantityElement.value = quantityElement.getAttribute('value');

@@ -27,7 +27,7 @@
 
         async updateFreeShippingLimit() {
             const cart = await this.fetchShopifyCart();
-            const limit = {{ settings.free_shipping_limit }} || 0;
+            const limit = {{ settings.free_shipping_limit | default: 0 }};
             if (limit <= 0 || !cart) return;
 
             let amountRemaining = limit - cart.total_price / 100;
@@ -56,9 +56,12 @@
         }
 
         startEventListener() {
-            document.addEventListener('cartUpdate', () => {
-                this.updateFreeShippingLimit();
+            document.addEventListener('DOMContentLoaded', () => {
+               subscribe(PUB_SUB_EVENTS.cartUpdate, async (everything) => {
+                 this.updateFreeShippingLimit();
+                });
             });
+            
         }
     }
 
