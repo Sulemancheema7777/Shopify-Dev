@@ -6,8 +6,10 @@
         }
 
         connectedCallback() {
+            let currencyMetaTag = document.querySelector('meta[property="og:price:currency"]');
+            let currency = currencyMetaTag ? currencyMetaTag.getAttribute('content') : 'USD';
             this.startEventListener();
-            this.updateFreeShippingLimit();
+            this.updateFreeShippingLimit(currency);
         }
 
         // Function to fetch cart data
@@ -34,7 +36,7 @@
             amountRemaining = amountRemaining.toFixed(2);
 
             const txt = amountRemaining > 0 ?
-                `<p class="shipping_limit">Add ${amountRemaining} more to get free shipping</p>` :
+                `<p class="shipping_limit">Add ${amountRemaining} ${currency} more to get free shipping</p>` :
                 `<p class="shipping_limit_done">Congrats! You have FREE SHIPPING</p>`;
 
             // Use a container inside shadowRoot instead of directly updating the entire innerHTML
@@ -42,8 +44,10 @@
             `<style>
                 .shipping_limit,.shipping_limit_done{
                     font-weight: bold;
-                    padding: 8px;
+                    padding: 8px 2px;
                     border-radius: 8px;
+                    text-align:center;
+                    font-size:14px;
                 }
                 .shipping_limit {
                     background-color: yellow;
